@@ -1,0 +1,56 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ECRAuthToken",
+      "Effect": "Allow",
+      "Action": [
+        "ecr:GetAuthorizationToken"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "ECRRepositoryAccess",
+      "Effect": "Allow",
+      "Action": [
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:BatchGetImage",
+        "ecr:PutImage",
+        "ecr:InitiateLayerUpload",
+        "ecr:UploadLayerPart",
+        "ecr:CompleteLayerUpload",
+        "ecr:DescribeRepositories",
+        "ecr:ListImages"
+      ],
+      "Resource": "arn:aws:ecr:ap-southeast-1:123456789012:repository/backend-api"
+    },
+    {
+      "Sid": "SSMSendCommandToTaggedEC2",
+      "Effect": "Allow",
+      "Action": [
+        "ssm:SendCommand"
+      ],
+      "Resource": [
+        "arn:aws:ssm:ap-southeast-1:123456789012:document/AWS-RunShellScript",
+        "arn:aws:ec2:ap-southeast-1:123456789012:instance/*"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "aws:ResourceTag/App": "backend-api"
+        }
+      }
+    },
+    {
+      "Sid": "SSMCommandStatusAndEC2Discovery",
+      "Effect": "Allow",
+      "Action": [
+        "ssm:ListCommandInvocations",
+        "ssm:ListCommands",
+        "ssm:GetCommandInvocation",
+        "ec2:DescribeInstances"
+      ],
+      "Resource": "*"
+    }
+  ]
+}

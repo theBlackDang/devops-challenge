@@ -1,0 +1,22 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /opt/app/release
+hooks:
+  ApplicationStop:
+    - location: scripts/deploy.sh
+      timeout: 60
+      runas: root
+  BeforeInstall:
+    - location: scripts/healthcheck.sh
+      timeout: 30
+      runas: root
+  ApplicationStart:
+    - location: scripts/deploy.sh
+      timeout: 300
+      runas: root
+  ValidateService:
+    - location: scripts/healthcheck.sh
+      timeout: 60
+      runas: root
