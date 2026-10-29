@@ -1,5 +1,3 @@
-Provide your solution here:
-
 # Problem 2: Diagnose Me Doctor
 
 ### Incident Context
